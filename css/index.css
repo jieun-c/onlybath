@@ -1,0 +1,75 @@
+body {font-family: 'Nanumsquare', 'Raleway'; overflow-x: hidden; _overflow-y: scroll;}
+body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    font-family: 'Nanumsquare';
+}
+
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+#wrap{
+    height: 100%;
+}
+.main{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+    /*padding-top: 90px*/
+}
+
+.main_h1 {text-align: center; color: #FFFFFF; font-size: 35px; font-weight: 300; letter-spacing: 15px; transition: 1s;}
+
+.scrollBox{
+    position: fixed;
+    top: 50%; right: 0;
+    z-index: 10;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 150px;
+    
+    display: -webkit-box; display: -ms-flexbox; display: flex;
+    -webkit-box-orient: vertical; -ms-flex-direction: column; flex-direction: column;
+    -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-around;
+    /*around 익스플로러 적용불가능*/
+    -webkit-box-align: end; -ms-flex-align: end; align-items: flex-end;
+    
+}
+.scrollBox > div{
+    width: 40%;
+    height: 5px;
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+.scrollBox > div.onScroll{
+    width: 100%;
+}
+
+#main1{background-color: lightgray;}
+#main2{background-color: white;}
+#main3{background-color: black;}
+#main4{background-color: white;}
+#main5{background-color: gray;}
+
+@media screen and (min-width:1280px) and (max-width:1599px){ /*large pc*/
+    .main_h1 {font-size: 30px; letter-spacing: 14px;}
+}
+@media screen and (min-width:768px) and (max-width:1279px){ /*태블릿*/
+    .main{
+        /*padding-top: 80p*/
+        box-sizing: border-box;
+    }
+    .main_h1 {font-size: 25px; letter-spacing: 13px;}
+
+}
+@media screen and (max-width:767px){ /*mobile*/
+    .main{
+        /*padding-top: 70px*/
+        box-sizing: border-box;
+    }
+    .main_h1 {font-size: 20px; letter-spacing: 12px;}
+    .scrollBox{
+        display: none;
+    }
+}

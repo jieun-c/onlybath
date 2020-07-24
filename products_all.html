@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ONLYBATH - PRODUCT</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/prefixfree.min.js"></script>
+    <script src="js/sub_common.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
+    <link rel="shortcut icon" href="img/icon/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/sub.css">
+    <link rel="stylesheet" href="css/products_allAndInd.css">
+    
+    <style>
+        #radioGroup{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+
+            -ms-flex-pack: distribute;
+            justify-content: space-around;
+
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+        .stylePack{
+            display: none;
+        }
+        
+    /*large pc*/
+    @media screen and (max-width:1599px){
+        
+    }
+
+    /*tablet*/
+    @media screen and (max-width:1279px){
+        
+    }
+
+    /*mobile*/
+    @media screen and (max-width:767px){
+
+    }
+    </style>
+    <script>
+        $(document).ready(function(){
+            //contents setting
+            var section = $("section"),
+                simple = $(".simple"), modern = $(".modern"),
+                unique = $(".unique"), luxury = $(".luxury");
+            var btnHouse = $("#btnGroup input[type=button]");
+            var select = $(".selectGroup select"),
+                selectBtn = $(".selectGroup img"),
+                clicked = 10;
+            var size = $("#size");
+            var radio = $("input:radio[name='roomStyle']");
+            var estimateAdd = $("#estimateAdd"),
+                estimateReset = $("#estimateReset"),
+                addItemsCount = 0;
+            var modal = $("#modalBox");
+            var modalLayer = $(".modal_layer");
+            var modalXBtn = $(".modal_close_btn");
+            var choice_condition = $(".modalMid ul");
+            var choice_product = $(".modalMid > #choice_product");
+            var itemList = new Array();
+            var num = $("#number > li");
+            var modalSubmit = $(".modalBot > input:submit");
+            var modalReset = $(".modalBot > input:reset");
+            
+            
+            var simpleGuide = [
+                "편안한 화장실의 요건을 갖춘 감각적인 인테리어",
+                "단아하고 깔끔한 느낌의 화이트 인테리어",
+                "은은한 크림과 따뜻한 브라운의 잔잔한 인테리어",
+                "바쁜 현대인들을 위한 심플하면서도 세련된 인테리어",
+                "정겨운 우리집 화장실 인테리어",
+                "공간이 트여 씻기전에도 상쾌한 기분을 선사하는 인테리어",
+                "따뜻한 분위기에 사랑이 싹트는 인테리어 ",
+                "독특하고 감각적인 패턴의 인테리어"
+            ];
+            var modernGuide = [
+                "호텔 부럽지않은 나만의 작은 인테리어",
+                "모던, 심플, 깔끔 그 자체의 인테리어",
+                "역사가 깊은 브랜드의 느낌있는 인테리어",
+                "효율적인 공간설계로 완성된 인테리어",
+                "모던의 정석, 흑과백 인테리어",
+                "클래식한 분위기와 세련미가 돋보이는 인테리어",
+                "은은한 조명을 더한 빈티지 인테리어",
+                "자연이 움틉니다. 우리 부모님께 효도 인테리어"
+            ];
+            var uniqueGuide = [
+                "화이트와 브라운의 감각적인 인테리어",
+                "후끈한 사우나 우드 인테리어",
+                "우리 아이가 좋아해요. 깨발랄 인테리어",
+                "차가운 도시의 남자 인테리어",
+                "주님과 함께하는 인테리어",
+                "예술가 느낌이 물씬 풍기는 인테리어",
+                "혁신적인 디자인이 돋보이는 인테리어",
+                "든든한 밥그릇 인테리어",
+                "어딘가 독특한 매력이 있는 독창적 인테리어"
+            ];
+            var luxuryGuide = [
+                "마치 북유럽에 있는듯한 매력적인 인테리어",
+                "최고의 디자인으로 선보인 패턴 인테리어",
+                "포인트를 주어 심플하면서도 톡톡 튀는 인테리어",
+                "호캉스에 견주는 집캉스 인테리어",
+                "세련된 감각의 디자인이 돋보이는 인테리어",
+                "우아하고 고풍적인 인테리어",
+                "고급스러운 컬러감으로 완성된 인테리어",
+                "모여봐요 럭셔리숲 인테리어"
+            ];
+            
+            var simplePack = [
+                "simple1: 거울, 조명, 세면대2, 수납장, 변기",
+                "simple2: 거울, 조명2, 세면대, 수납장, 욕조, 변기",
+                "simple3: 거울, 조명5, 세면대, 수납장, 변기",
+                "simple4: 거울, 조명, 세면대, 수납장, 변기, 샤워부스",
+                "simple5: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "simple6: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "simple7: 거울, 조명, 세면대, 수납장, 욕조, 변기, 샤워부스",
+                "simple8: 거울, 조명, 세면대, 수납장, 욕조, 변기"
+            ];
+            var modernPack = [
+                "modern 1: 거울, 조명, 세면대2, 수납장, 변기",
+                "modern 2: 거울, 조명2, 세면대, 수납장, 욕조, 변기",
+                "modern 3: 거울, 조명5, 세면대, 수납장, 변기",
+                "modern 4: 거울, 조명, 세면대, 수납장, 변기, 샤워부스",
+                "modern 5: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "modern 6: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "modern 7: 거울, 조명, 세면대, 수납장, 욕조, 변기, 샤워부스",
+                "modern 8: 거울, 조명, 세면대, 수납장, 욕조, 변기"
+            ];
+            var uniquePack = [
+                "unique 1: 거울, 조명, 세면대2, 수납장, 변기",
+                "unique 2: 거울, 조명2, 세면대, 수납장, 욕조, 변기",
+                "unique 3: 거울, 조명5, 세면대, 수납장, 변기",
+                "unique 4: 거울, 조명, 세면대, 수납장, 변기, 샤워부스",
+                "unique 5: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "unique 6: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "unique 7: 거울, 조명, 세면대, 수납장, 욕조, 변기, 샤워부스",
+                "unique 8: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "unique 9: 거울, 조명, 세면대, 수납장, 욕조",
+                "unique 10: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "unique 11: 거울, 조명, 세면대, 수납장, 욕조"
+            ];
+            var luxuryPack = [
+                "luxury 1: 거울, 조명, 세면대2, 수납장, 변기",
+                "luxury 2: 거울, 조명2, 세면대, 수납장, 욕조, 변기",
+                "luxury 3: 거울, 조명5, 세면대, 수납장, 변기",
+                "luxury 4: 거울, 조명, 세면대, 수납장, 변기, 샤워부스",
+                "luxury 5: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "luxury 6: 거울, 조명, 세면대, 수납장, 욕조, 변기",
+                "luxury 7: 거울, 조명, 세면대, 수납장, 욕조, 변기, 샤워부스",
+                "luxury 8: 거울, 조명, 세면대, 수납장, 욕조, 변기"
+            ];
+            
+                /*setting*/
+            for(var i = 0; i < 8; i++){
+                simple.append(
+                    '<article><div class="articleInner"><img src="img/sub_product/simple/simple' + (i+1) + '.jpg" alt="simple' + (i+1) + '"><h3>두샘 심플 스타일' + (i+1) + '</h3><p>' + simpleGuide[i] + '</p><p class="stylePack">'+ simplePack[i] +'</p><input type="button" id="addBtn' + i + '" name="addBtn" value="견적 추가" class="addBtn"></div></article>'
+                );
+            }
+            for(var i = 0; i < 8 ; i++){
+                modern.append(
+                    '<article><div class="articleInner"><img src="img/sub_product/modern/modern' + (i+1) + '.jpg" alt="modern' + (i+1) + '"><h3>두샘 모던 스타일' + (i+1) + '</h3><p>' + modernGuide[i] + '</p><p class="stylePack">'+ modernPack[i] +'</p><input type="button" id="addBtn' + i + '" name="addBtn" value="견적 추가" class="addBtn"></div></article>'
+                );
+            }
+            for(var i = 0; i < 9 ; i++){
+                unique.append(
+                    '<article><div class="articleInner"><img src="img/sub_product/unique/unique' + (i+1) + '.jpg" alt="unique' + (i+1) + '"><h3>두샘 유니크 스타일' + (i+1) + '</h3><p>' + uniqueGuide[i] + '</p><p class="stylePack">'+ uniquePack[i] +'</p><input type="button" id="addBtn' + i + '" name="addBtn" value="견적 추가" class="addBtn"></div></article>'
+                );
+            }
+            for(var i = 0; i < 8 ; i++){
+                luxury.append(
+                    '<article><div class="articleInner"><img src="img/sub_product/luxury/luxury' + (i+1) + '.jpg" alt="luxury' + (i+1) + '"><h3>두샘 럭셔리 스타일' + (i+1) + '</h3><p>' + luxuryGuide[i] + '</p><p class="stylePack">'+ luxuryPack[i] +'</p><input type="button" id="addBtn' + i + '" name="addBtn" value="견적 추가" class="addBtn"></div></article>'
+                );
+            }
+            
+           /*
+           >> HTML구조
+           <article>
+                <div class="articleInner">
+                    <img src="img/sub_product/luxury/luxury(숫자).jpg" alt="">
+                    <h3>두샘 럭셔리 화이트(숫자)</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. </p>
+                    <input type="button" id="addBtn' + (i+1) + '" name="addBtn" value="견적추가" class="addBtn">
+                </div>
+            </article> 
+            */
+            
+            for(var i = 5; i < 41; i++){
+                if(i != 5 && i != 40){
+                    size.append("<option value='" + i + "평'>" + i + "</option>");
+                }else if(i == 5){
+                    size.append("<option value='" + i + "평 이하'>~ " + i + "</option>");
+                }else if(i ==40){
+                    size.append("<option value='" + i + "평 이상'>" + i + " ~</option>");
+                }
+            }
+            
+            modern.hide(); unique.hide(); luxury.hide();
+            simple.show();
+            
+            estimateAction(addItemsCount);
+            var articleBtn = $("article > .articleInner > input[type=button]"); //세팅 후 변수 할당
+            
+            
+                /*clickEvent*/
+            btnHouse.click(function(){
+                btnHouse.removeClass("on");
+                $(this).addClass("on");
+            });
+            
+            select.click(function(){
+                var i = select.index(this);
+                spinUp(i);
+                if(clicked == i){
+                    spinDown(i);
+                    clicked = 10;
+                    return;
+                }
+                clicked = i;
+            });
+            
+            select.focusout(function(){ //포커스 해제
+                var i = select.index(this);
+                spinDown(i);
+                clicked = 10;
+            });
+            
+            radio.click(function(){
+                var tg = radio.index(this);
+                
+                if(addItemsCount != 0){
+                    alert("견적서 초기화 후 스타일 변경이 가능합니다.");
+                    return false;
+                }
+                
+                section.stop().fadeOut(100);
+                
+                if($(this).is(":checked") == true){
+                    switch(tg){
+                        case 0: simple.stop().fadeIn(500); break;
+                        case 1: modern.stop().fadeIn(500); break;
+                        case 2: unique.stop().fadeIn(500); break;
+                        case 3: luxury.stop().fadeIn(500); break;
+                        default: console.log("스타일 버튼 갯수가 컨텐츠보다 많습니다."); break;
+                    }
+                }
+            });
+            
+            estimateReset.click(function(){
+                addItemsCount = 0;
+                estimateAction(addItemsCount);
+                articleBtn.removeClass("add");
+                articleBtn.val("견적 추가");
+                $(".choice_item").remove();
+                itemList.length = 0;
+            }); 
+            estimateAdd.click(function(){
+                if($("#selectGroup2 #budget option:selected").val() == ""){
+                    alert("예산을 입력 후 견적을 확인해주세요.");
+                    return false;
+                }
+                $('html, body').css({'overflow': 'hidden'});
+                modal.show();
+                
+                var condition = new Array();
+                condition.push($("#btnGroup > input[type=button].on").val());
+                condition.push($("#selectGroup1 option:selected").val());
+                condition.push($("#selectGroup2 option:selected").val());
+                condition.push("총 " + addItemsCount + "개");
+                
+                choice_condition.append("<li>" + "거주 형태: " + condition[0] + "</li>");
+                choice_condition.append("<li>" + "평수: " + condition[1] + "</li>");
+                choice_condition.append("<li>" + "예산: " + condition[2] + "</li>");
+                choice_product.append("<span>" + condition[3] + "</span>");
+            });
+            modalLayer.click(function(){
+                modalClose();
+            });
+            modalXBtn.click(function(){
+                modalClose();
+            });
+            modalReset.click(function(){
+                modalClose();
+            });
+            
+            
+            articleBtn.click(function(){
+                var tg = articleBtn.index(this);
+                
+                if($(this).hasClass("add")){
+                    $(this).removeClass("add");
+                    $(this).val("견적 추가");
+                    addItemsCount--;
+                    basket($(this), 0);
+                }else{
+                    $(this).addClass("add");
+                    $(this).val("견적 제거");
+                    addItemsCount++;
+                    basket($(this), 1);
+                }
+                estimateAction(addItemsCount);
+            });
+            
+            num.click(function(){
+                num.removeClass("page");
+                $(this).addClass("page");
+            });
+            
+            
+                /*함수 구현*/
+            function spinUp(i){
+                $(".selectGroup").eq(i).find("img").stop().animate({deg: 180},{
+                duration: 200,
+                step: function(now){
+                    $(this).css({ transform: 'rotateZ(' + now + 'deg)'});
+                }});
+            }
+            
+            function spinDown(i){
+                $(".selectGroup img").eq(i).stop().animate({deg: 0},{
+                    duration: 200,
+                    step: function(now){
+                        $(this).css({ transform: 'rotateZ(' + now + 'deg)'});
+                    }
+                });
+            }
+            
+            function estimateAction(i){
+                if(i == 0){
+                    estimateReset.css("display","none");
+                    estimateAdd.val("원하시는 디자인을 선택해주세요.");
+                    estimateAdd.css({background: "#eee", border: 0});
+                    estimateAdd.attr("disabled",true);
+                    
+                }else{
+                    estimateReset.css("display","block");
+                    estimateAdd.val("총 " + i + "개 | 견적서 보기");
+                    estimateAdd.css({background: "#fff", border: "1px solid #403E3B"});
+                    estimateAdd.attr("disabled",false);
+                }
+            }
+            
+            function modalClose(){
+                modal.hide();
+                choice_condition.find("li").remove();
+                choice_product.find("span").remove();
+                $('html, body').css({'overflow': 'auto'});
+            }
+            
+            
+            function basket(item, isItem){
+                var itemImg = item.prev().prev().prev().prev().attr("src");
+                var itemName = item.prev().prev().prev().clone().text();
+                var itemInfo = item.prev().clone().text();
+                
+                var i = articleBtn.index(item);
+                
+                if(isItem == 0){ //제거
+                    $(".choice_item").eq(itemList.indexOf(i)).remove();
+                    itemList.splice(itemList.indexOf(i),1);
+                }else if(isItem == 1){ //추가
+                    itemList.push(i);
+                    $("#modalContents").append(function(){
+                    return '<div class="choice_item">' + '<img src="'+ itemImg +'">'
+                        + '<div class="modalContents_txt"><h3 class="productName">'
+                        + itemName + '</h3><p>' + itemInfo + '</p></div></div></div>'
+                    });
+                }else{
+                    console.log("error");
+                }
+                
+                /*
+                >> HTML구조
+                <div class="modalContents">
+                    <div class="choice_item">
+                        <img src="img/sub_product/simple/simple1.jpg" alt="">
+                        <div class="modalContents_txt">
+                            <h3 class="productName">두샘 심플 화이트1</h3>
+                            <p>설명 설명 설명</p>
+                        </div>
+                    </div>
+                </div>
+                */
+            }
+            
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <header></header>
+        <div class="subTop">
+            <div class="subTop_bg">
+                <h1>PRODUCTS</h1>
+            </div>
+        </div>
+        <div class="main-content">
+            <h2>전체시공</h2>
+            <form method="get" id="conditions">
+                <div id ="btnGroup">
+                    <input type="button" value="아파트" class="on">
+                    <input type="button" value="주택">
+                </div>
+                
+                
+                <div id = "selectGroup1" class="selectGroup">
+                    <div class="sBox">
+                        <select name="size" id="size"></select>
+                        <img src="img/icon/select.png" alt="">
+                    </div>
+                    <span>평</span>
+                </div>
+                
+                
+                <div id = "selectGroup2" class="selectGroup">
+                    <div class="sBox">
+                        <select name="budget" id="budget">
+                            <option value="">예산</option>
+                            <option value="200만원 이하">~ 200</option>
+                            <option value="200-300만원">200-300</option>
+                            <option value="300-500만원">300-500</option>
+                            <option value="500-800만원">500-800</option>
+                            <option value="800만원 이상">800 ~ </option>
+                        </select>
+                        <img src="img/icon/select.png" alt="">
+                    </div>
+                    <span>만원</span>
+                </div>
+                <ul id = "radioGroup">
+                    <li>
+                        <label for="r_simple">심플</label>
+                        <input type="radio" name="roomStyle" id="r_simple" value="r_simple" checked>
+                    </li>
+                    <li>
+                        <label for="r_modern">모던</label>
+                        <input type="radio" name="roomStyle" id="r_modern" value="r_modern">
+                    </li>
+                    <li>
+                        <label for="r_unique">유니크</label>
+                        <input type="radio" name="roomStyle" id="r_unique" value="r_unique">
+                    </li>
+                    <li>
+                        <label for="r_luxury">럭셔리</label>
+                        <input type="radio" name="roomStyle" id="r_luxury" value="r_luxury">
+                    </li>
+                </ul>
+                <div id="estimateBox">
+                    <input type="button" id="estimateAdd" name="estimateAdd" value=" | 견적서 보기">
+                    <input type="button" id="estimateReset" name="estimateReset" value="초기화">
+                </div>
+                
+            </form>
+            
+            <section class="simple"></section>
+            <section class="modern"></section>
+            <section class="unique"></section>
+            <section class="luxury"></section>
+            
+            <!--모달 추가-->
+            <div id="modalBox">
+                <div class="modal_layer"></div>
+                <div class="modal_content">
+                    <div class="modalTop">
+                        <img src="img/icon/favicon_png.png" alt=""><h3>Only Bath 견적서</h3>
+                        <button type="button" class="modal_close_btn">X</button>
+                    </div>
+                    <form action="products_estimate.html" id="modalForm"> <!--JSP로 변경 필요-->
+                        <div class="modalMid">
+                            <p id="choice_condition" style="">▶ 선택 조건</p>
+                            <ul></ul>
+                            <p id="choice_product">▶ 선택한 견적: <span></span></p>
+                        </div>
+                        <div id="modalContents">
+                        </div>
+                        <div class="modalBot">
+                            <input type="submit" value="견적 신청하기">
+                            <input type="reset" value="닫기">
+                        </div>
+                    </form>
+                </div>
+            </div> 
+            
+            <!--<div class="listBox">
+                <div class="list">
+                    <div id="btnll">&lt;&lt;</div>
+                    <div id="btnl">&lt;</div>
+                    <ul id="number">
+                        <li class="page">1</li>
+                    </ul>
+                    <div id="btngg">&gt;</div>
+                    <div id="btng">&gt;&gt;</div>
+                </div>
+            </div>-->
+            
+        </div><!--//main-content-->
+        <footer></footer>
+    </div><!--//wrapper-->
+</body>
+</html>
